@@ -7,6 +7,7 @@ public class TLV {
 	
 	public TLV() {
 		this._header = new TLVHeader();
+		this._body = new TLVBody();
 	}
 
 	public TLVHeader get_header() {

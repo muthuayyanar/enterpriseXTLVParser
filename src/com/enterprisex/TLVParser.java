@@ -1,5 +1,6 @@
 package com.enterprisex;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,14 +13,17 @@ public class TLVParser {
 		// TODO Auto-generated method stub
 
 		System.out.println("Enterprise X - TLV Parser");
-		
-		Path path = Paths.get("c:/SCFFile.tlv");
+		File tlv = new File("TLV/SCFFile.tlv");
+		Path path = Paths.get(tlv.getAbsolutePath());
 		try {
 			byte[] data = Files.readAllBytes(path);
 			TLV test = new TLV();
 			TLVReader reader = new TLVReader(data, test);
 			reader.parseHeader();
-			System.out.println(test.get_header());
+			System.out.println("HEADER\n"+test.get_header());
+			reader.parseBody();
+			System.out.println();
+			System.out.println("BODY\n"+test.get_body());
 //			for (Iterator<TLVEntry> i = test.get_header().get_entries().iterator(); i.hasNext();) {
 //			    TLVEntry item = i.next();
 //			    System.out.println(item);
