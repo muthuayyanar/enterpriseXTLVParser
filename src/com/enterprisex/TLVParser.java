@@ -21,9 +21,9 @@ public class TLVParser {
 			TLVReader reader = new TLVReader(data, test);
 			reader.parseHeader();
 			System.out.println("HEADER\n"+test.get_header());
-			reader.parseBody();
 			System.out.println();
-			System.out.println("BODY\n"+test.get_body());
+			reader.parseBody();
+			//System.out.println("BODY\n"+test.get_body());
 //			for (Iterator<TLVEntry> i = test.get_header().get_entries().iterator(); i.hasNext();) {
 //			    TLVEntry item = i.next();
 //			    System.out.println(item);
