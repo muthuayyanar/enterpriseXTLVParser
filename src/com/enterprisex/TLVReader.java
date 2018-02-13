@@ -58,7 +58,6 @@ public class TLVReader {
 			System.arraycopy(_input, startIndex,value,0,entry.Length);
 			entry.Value = new String(value);
 			startIndex = startIndex+entry.Length;
-			_decoded.get_header().AddEntry(entry);
 			}
 			else {
 				entry.Value = "no value field";
