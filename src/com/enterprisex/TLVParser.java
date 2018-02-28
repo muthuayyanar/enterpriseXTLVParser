@@ -20,14 +20,10 @@ public class TLVParser {
 			TLV test = new TLV();
 			TLVReader reader = new TLVReader(data, test);
 			reader.parseHeader();
-			System.out.println("HEADER\n"+test.get_header());
 			System.out.println();
 			reader.parseBody();
-			//System.out.println("BODY\n"+test.get_body());
-//			for (Iterator<TLVEntry> i = test.get_header().get_entries().iterator(); i.hasNext();) {
-//			    TLVEntry item = i.next();
-//			    System.out.println(item);
-//			}
+			System.out.println("HEADER\n"+test.get_header());
+			System.out.println("HEADER\n"+test.get_body());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

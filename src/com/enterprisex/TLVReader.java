@@ -5,10 +5,7 @@ import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
-
 import javax.security.auth.x500.X500Principal;
-
 import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
@@ -61,9 +58,8 @@ public class TLVReader {
 			}
 			else {
 				entry.Value = "no value field";
-				this._decoded.get_header().AddEntry(entry);
 			}
-			
+			this._decoded.get_header().AddEntry(entry);
 		}
 	}
 	
