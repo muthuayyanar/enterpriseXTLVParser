@@ -63,7 +63,7 @@ public class TLVReader {
 
 	public void parseBody() {
 		int start = _decoded.get_header().get_headerLength();
-		int bodyLength = this._input.length - start, startIndex = start, endIndex = bodyLength;
+		int bodyLength = this._input.length - start, startIndex = start, endIndex = startIndex+bodyLength;
 		_decoded.get_body().set_bodyLength(bodyLength);
 
 		while (startIndex < endIndex) {
@@ -100,7 +100,7 @@ public class TLVReader {
 							e.printStackTrace();
 						}
 						byte[] value = new byte[entry.Length];
-						System.arraycopy(_input, startIndex, value, 0, entry.Length);
+						System.arraycopy(_input, recordStartIndex, value, 0, entry.Length);
 						InputStream in = new ByteArrayInputStream(value);
 						try {
 							X509Certificate cert = (X509Certificate) certFactory.generateCertificate(in);
