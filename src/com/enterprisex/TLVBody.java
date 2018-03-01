@@ -13,7 +13,7 @@ public class TLVBody {
 	
 	@Override
 	public String toString() {
-		return "TLVBody _records=" + _records + "]";
+		return "\n" + _records;
 	}
 	
 	public int get_bodyLength() {

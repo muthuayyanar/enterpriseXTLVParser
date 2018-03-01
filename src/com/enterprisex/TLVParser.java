@@ -22,8 +22,8 @@ public class TLVParser {
 			reader.parseHeader();
 			System.out.println();
 			reader.parseBody();
-			System.out.println("HEADER\n"+test.get_header());
-			System.out.println("HEADER\n"+test.get_body());
+			System.out.println(test.get_header());
+			System.out.println(test.get_body());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

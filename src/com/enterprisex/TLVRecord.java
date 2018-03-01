@@ -27,6 +27,14 @@ public class TLVRecord {
 	public void Add(TLVEntry entry) {
 		_entries.add(entry);
 	}
+
+	@Override
+	public String toString() {
+		return "\nRecord Length\t" + _recordLength  +"\n" + _entries;
+		
+	}
+	
+	
 	
 	
 }

@@ -109,7 +109,7 @@ public class TLVReader {
 							X500Name x500name = new X500Name(principal.getName());
 							RDN cn = x500name.getRDNs(BCStyle.CN)[0];
 							String cnVal = IETFUtils.valueToString(cn.getFirst().getValue());
-							System.out.println("CN Value: " + cnVal);
+							//System.out.println("CN Value: " + cnVal);
 						} catch (CertificateException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
