@@ -8,8 +8,7 @@ public class TLVHeader {
 	
 	@Override
 	public String toString() {
-		return "TLVHeader [_majorVersion=" + _majorVersion + ", _minorVersion=" + _minorVersion + ", _headerLength="
-				+ _headerLength + ", _signerID=" + _signerID + ", _entries=" + _entries + "]";
+		return "Version\t" + _majorVersion + "." + _minorVersion + "\nHeaderLength\t"  + _headerLength + "\nSigner ID\t" + _signerID + "\n" + _entries + "]";
 	}
 
 	private int _majorVersion;

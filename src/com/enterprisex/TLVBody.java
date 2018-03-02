@@ -4,27 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TLVBody {
-	private	List<TLVEntry> _entries;
+	private	List<TLVRecord> _records;
 	private int _bodyLength;
 	
 	public TLVBody() {
-		this._entries = new ArrayList<TLVEntry>();
+		this._records = new ArrayList<TLVRecord>();
 	}
 	
 	@Override
 	public String toString() {
-		return "TLVBody _entries=" + _entries + "]";
+		return "\n" + _records;
 	}
-	public List<TLVEntry> get_entries() {
-		return _entries;
-	}	
 	
-	public boolean AddEntry(TLVEntry entry) {
-		_entries.add(entry);
-		return true;
-	}
 	public int get_bodyLength() {
 		return _bodyLength;
+	}
+
+	public List<TLVRecord> get_records() {
+		return _records;
+	}
+
+	public void AddRecord(TLVRecord record) {
+		_records.add(record);
 	}
 
 	public void set_bodyLength(int _bodyLength) {

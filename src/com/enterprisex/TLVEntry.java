@@ -8,7 +8,7 @@ public class TLVEntry {
 
 	@Override
 	public String toString() {
-		return "TLVEntry [Type=" + Type + ", Length=" + Length + ", Value=" + Value + "]";
+		return Type +"\t" + Length +"\t"+  Value +"\n";
 	}
 	
 }
