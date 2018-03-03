@@ -8,5 +8,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry exported="true" kind="lib" path="jar/bcprov-jdk15on-159.jar"/>
+	<classpathentry exported="true" kind="lib" path="jar/commons-io-2.6.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
