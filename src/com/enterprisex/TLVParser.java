@@ -1,16 +1,9 @@
 package com.enterprisex;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
-
-import java.nio.file.Path;
 
 public class TLVParser {
 
@@ -18,13 +11,9 @@ public class TLVParser {
 		// TODO Auto-generated method stub
 
 		System.out.println("Enterprise X - TLV Parser");
-		File tlv = new File("TLV/SCFFile.tlv");
-		Path path = Paths.get(tlv.getAbsolutePath());
 		
-		String resourceName = "SCFFile.tlv";
-		//ClassLoader classLoader = TLVParser.class.getResourceAsStream(resourceName);
-		//InputStream stream = classLoader.getResourceAsStream(resourceName);
-		InputStream stream = TLVParser.class.getResourceAsStream(resourceName);
+		String scfFile = "SCFFile.tlv";
+		InputStream stream = TLVParser.class.getResourceAsStream(scfFile);
 		
 		try {
 			//byte[] data = Files.readAllBytes(path);

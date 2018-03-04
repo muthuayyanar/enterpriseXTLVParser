@@ -1,5 +1,6 @@
 package com.enterprisex.tlv.updated;
 
+@SuppressWarnings("unused")
 public class TLVReader {
 
 	private byte[] _input;
