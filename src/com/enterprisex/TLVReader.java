@@ -2,15 +2,23 @@ package com.enterprisex;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
+
 import javax.security.auth.x500.X500Principal;
 import org.bouncycastle.asn1.x500.RDN;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
-
+import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.util.encoders.Hex;
 
 @SuppressWarnings("unused")
 public class TLVReader {
@@ -65,7 +73,7 @@ public class TLVReader {
 
 	public void parseBody() {
 		int start = _decoded.get_header().get_headerLength();
-		int bodyLength = this._input.length - start, startIndex = start, endIndex = startIndex+bodyLength;
+		int bodyLength = this._input.length - start, startIndex = start, endIndex = startIndex + bodyLength;
 		_decoded.get_body().set_bodyLength(bodyLength);
 
 		while (startIndex < endIndex) {
@@ -81,18 +89,43 @@ public class TLVReader {
 
 			int recordStartIndex = 0, recordEndIndex = 0;
 			recordStartIndex = ++startIndex;
-			//subtracting 3 bytes to exclude the Record length (type 1 byte, length 2 bytes and actual length)
-			recordEndIndex = recordStartIndex + recordLength-1-2-recordLengthLength;
-			while (recordStartIndex < recordEndIndex) 
-			{
+			// subtracting 3 bytes to exclude the Record length (type 1 byte, length 2 bytes
+			// and actual length)
+			recordEndIndex = recordStartIndex + recordLength - 1 - 2 - recordLengthLength;
+			while (recordStartIndex < recordEndIndex) {
 				TLVEntry entry = new TLVEntry();
 				entry.Type = _input[recordStartIndex];
 				entry.Length = (int) ((_input[++recordStartIndex] << 8) | (_input[++recordStartIndex] & 0xFF));
 				if (_input[++recordStartIndex] != (Integer) (entry.Type + 1)) {
-					if (entry.Type == 7) {
+
+					byte[] value = new byte[entry.Length];
+					System.arraycopy(_input, recordStartIndex, value, 0, entry.Length);
+					if (entry.Type == 6) {
+						int SerialNumberLength = 0;
+						for(byte item:value) {
+							SerialNumberLength |= item & 0xFF;
+						} 
+						entry.Value = Integer.toString(SerialNumberLength);
+					} else if (entry.Type == 7) {
+
+//						try {
+//
+//							PublicKey publicKey = KeyFactory.getInstance("RSA")
+//									.generatePublic(new X509EncodedKeySpec(value));
+//							entry.Value = publicKey.toString();
+//						} catch (InvalidKeySpecException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						} catch (NoSuchAlgorithmException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 						entry.Value = "encrypted";
 					} else if (entry.Type == 8) {
-						entry.Value = "encrypted2";
+						byte[] base64ByteArray = Base64.encode(value); // sig is your byte array
+						String humanReadableString = new String(base64ByteArray); // human readable string
+
+						entry.Value = humanReadableString;
 					} else if (entry.Type == 9) {
 						CertificateFactory certFactory = null;
 						try {
@@ -101,8 +134,7 @@ public class TLVReader {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						byte[] value = new byte[entry.Length];
-						System.arraycopy(_input, recordStartIndex, value, 0, entry.Length);
+
 						InputStream in = new ByteArrayInputStream(value);
 						try {
 							X509Certificate cert = (X509Certificate) certFactory.generateCertificate(in);
@@ -111,14 +143,15 @@ public class TLVReader {
 							X500Name x500name = new X500Name(principal.getName());
 							RDN cn = x500name.getRDNs(BCStyle.CN)[0];
 							String cnVal = IETFUtils.valueToString(cn.getFirst().getValue());
-							//System.out.println("CN Value: " + cnVal);
+							entry.Value = "Principal - " + principal + "\t X500Name-" + x500name + "\tRDN-" + cn
+									+ "\tcnValue-" + cnVal;
+							// System.out.println("CN Value: " + cnVal);
 						} catch (CertificateException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					} else {
-						byte[] value = new byte[entry.Length];
-						System.arraycopy(_input, recordStartIndex, value, 0, entry.Length);
+
 						entry.Value = new String(value);
 					}
 
@@ -129,7 +162,7 @@ public class TLVReader {
 				record.Add(entry);
 				startIndex = recordEndIndex;
 			}
-			
+
 			_decoded.get_body().AddRecord(record);
 		}
 	}
