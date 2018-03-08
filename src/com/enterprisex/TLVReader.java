@@ -89,8 +89,7 @@ public class TLVReader {
 
 			int recordStartIndex = 0, recordEndIndex = 0;
 			recordStartIndex = ++startIndex;
-			// subtracting 3 bytes to exclude the Record length (type 1 byte, length 2 bytes
-			// and actual length)
+			// subtracting 3 bytes to exclude the Record length (type 1 byte, length 2 bytes and actual length)
 			recordEndIndex = recordStartIndex + recordLength - 1 - 2 - recordLengthLength;
 			while (recordStartIndex < recordEndIndex) {
 				TLVEntry entry = new TLVEntry();
@@ -108,21 +107,16 @@ public class TLVReader {
 						entry.Value = Integer.toString(SerialNumberLength);
 					} else if (entry.Type == 7) {
 
-//						try {
-//
-//							PublicKey publicKey = KeyFactory.getInstance("RSA")
-//									.generatePublic(new X509EncodedKeySpec(value));
-//							entry.Value = publicKey.toString();
-//						} catch (InvalidKeySpecException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						} catch (NoSuchAlgorithmException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
+					/*	try {
+							PublicKey publicKey = KeyFactory.getInstance("RSA")
+									.generatePublic(new X509EncodedKeySpec(value));
+							entry.Value = publicKey.toString();
+						} catch (InvalidKeySpecException e) {
+						} catch (NoSuchAlgorithmException e) {
+						}*/
 						entry.Value = "encrypted";
 					} else if (entry.Type == 8) {
-						byte[] base64ByteArray = Base64.encode(value); // sig is your byte array
+						byte[] base64ByteArray = Base64.encode(value); 
 						String humanReadableString = new String(base64ByteArray); // human readable string
 
 						entry.Value = humanReadableString;
@@ -131,8 +125,7 @@ public class TLVReader {
 						try {
 							certFactory = CertificateFactory.getInstance("X.509");
 						} catch (CertificateException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println("Exception parsing certificate ::"+ e.getMessage());
 						}
 
 						InputStream in = new ByteArrayInputStream(value);
@@ -145,13 +138,10 @@ public class TLVReader {
 							String cnVal = IETFUtils.valueToString(cn.getFirst().getValue());
 							entry.Value = "Principal - " + principal + "\t X500Name-" + x500name + "\tRDN-" + cn
 									+ "\tcnValue-" + cnVal;
-							// System.out.println("CN Value: " + cnVal);
 						} catch (CertificateException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println("Exception parsing certificate ::"+ e.getMessage());
 						}
 					} else {
-
 						entry.Value = new String(value);
 					}
 
@@ -162,7 +152,6 @@ public class TLVReader {
 				record.Add(entry);
 				startIndex = recordEndIndex;
 			}
-
 			_decoded.get_body().AddRecord(record);
 		}
 	}

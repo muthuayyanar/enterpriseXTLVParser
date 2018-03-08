@@ -8,8 +8,7 @@ import org.apache.commons.io.IOUtils;
 public class TLVParser {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 		System.out.println("Enterprise X - TLV Parser");
 		
 		String scfFile = "SCFFile.tlv";
@@ -25,10 +24,8 @@ public class TLVParser {
 			reader.parseBody();
 			System.out.println(test.get_header());
 			System.out.println(test.get_body());
-			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Exception parsing tlv file : "+ e.getMessage());
 		}	
 		
 	}
