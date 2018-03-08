@@ -12,8 +12,7 @@ public class TLVEntry {
 	public String trygetValue() {
 		if (Value != null) {
 			if (Value.length <= 4) {
-				// all integers are 4 bytes in length. So, assuming anything under 4 byte is an
-				// integer
+				// all integers are 4 bytes in length. So, assuming anything under 4 byte is an integer
 				ByteBuffer wrapped = ByteBuffer.wrap(Value);
 				return String.valueOf(wrapped.getInt());
 			} else if (Value.length <= 8) {
